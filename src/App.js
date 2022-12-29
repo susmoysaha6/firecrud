@@ -1,23 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
+import { addDoc, collection, doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { db } from './firebase/firebase.config';
 
 function App() {
+  const handleAdd = async (e) => {
+    e.preventDefault()
+    const res = await addDoc(collection(db, "cities"), {
+      name: "Los Angeles",
+      state: "CA",
+      country: "USA",
+      timeStamp: serverTimestamp()
+    })
+    console.log(res.id);
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <form onSubmit={handleAdd}>
+        <input type="text" name="name" id="" />
+        <input type="text" name="address" id="" />
+        <button type="submit">Add</button>
+      </form>
     </div>
   );
 }
