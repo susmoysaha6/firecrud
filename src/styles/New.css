@@ -1,0 +1,39 @@
+.input-contatianer {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-container {
+    height: 50vh;
+    width: 30vw;
+    border: 1px solid gray;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+input {
+    border: 1px solid gray;
+    border-radius: 5px;
+    width: 90%;
+    padding: 5px;
+}
+
+button {
+    width: 90%;
+    border-radius: 5px;
+    background-color: tomato;
+    border: none;
+    padding: 5px;
+    color: aliceblue;
+}
+
+button:disabled {
+    background-color: lightgray;
+    color: gray;
+}

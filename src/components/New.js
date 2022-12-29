@@ -3,6 +3,7 @@ import { addDoc, collection, doc, serverTimestamp, setDoc } from 'firebase/fires
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { db, storage } from '../firebase/firebase.config';
 import { useEffect, useState } from 'react';
+import '../styles/New.css'
 
 const New = () => {
     const [file, setFile] = useState("");
@@ -47,6 +48,8 @@ const New = () => {
             );
         };
         file && uploadFile();
+        // const unsubscribe = uploadFile();
+
     }, [file]);
 
 
@@ -62,13 +65,25 @@ const New = () => {
         })
         console.log(res.id);
         e.target.reset();
+        alert("Document Updated Successfully");
+        setUrl("");
+        setPer(null);
     }
+
+
+
+
+
     return (
-        <div>
-            <form onSubmit={handleAdd}>
-                <input type="text" name="name" id="" required />
-                <input type="text" name="address" id="" required />
+        <div className='input-contatianer'>
+            <h1>Submit Form</h1>
+            <form className='form-container' onSubmit={handleAdd}>
+                <input type="text" name="name" id="" placeholder='Enter Your Name' required />
+                <br />
+                <input type="text" name="address" placeholder='Enter Your Address' id="" required />
+                <br />
                 <input type="file" id="" onChange={(e) => setFile(e.target.files[0])} />
+                <br />
                 <button disabled={per < 100} type="submit">Add</button>
             </form>
         </div>
