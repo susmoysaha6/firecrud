@@ -17,6 +17,16 @@
     justify-content: center;
 }
 
+.userlist {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.name {
+    margin-right: 30px;
+}
+
 input {
     border: 1px solid gray;
     border-radius: 5px;

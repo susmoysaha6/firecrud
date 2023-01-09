@@ -1,5 +1,5 @@
 import React from 'react';
-import { addDoc, collection, doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getDocs, onSnapshot, serverTimestamp, setDoc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { db, storage } from '../firebase/firebase.config';
 import { useEffect, useState } from 'react';
@@ -9,7 +9,9 @@ const New = () => {
     const [file, setFile] = useState("");
     const [url, setUrl] = useState("");
     const [per, setPer] = useState(null);
-    console.log(file);
+    const [users, setUsers] = useState([]);
+    // const userCollectionRef = collection(db, 'users')
+    // // console.log(file);
 
     useEffect(() => {
         const uploadFile = () => {
@@ -48,9 +50,34 @@ const New = () => {
             );
         };
         file && uploadFile();
-        // const unsubscribe = uploadFile();
 
     }, [file]);
+
+
+
+    useEffect(() => {
+        // const getUser = async () => {
+        //     const data = await getDocs(collection(db, 'users'));
+        //     console.log(data);
+        //     setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+        // };
+        // getUser();
+
+        const unsub = onSnapshot(collection(db, 'users'), (snapshot) => {
+            let list = [];
+            snapshot.docs.forEach((doc) => {
+                list.push({ id: doc.id, ...doc.data() })
+            });
+            setUsers(list);
+        }, error => {
+            console.log(error);
+        });
+
+        return () => {
+            unsub();
+        }
+
+    }, [])
 
 
     const handleAdd = async (e) => {
@@ -70,10 +97,6 @@ const New = () => {
         setPer(null);
     }
 
-
-
-
-
     return (
         <div className='input-contatianer'>
             <h1>Submit Form</h1>
@@ -86,6 +109,19 @@ const New = () => {
                 <br />
                 <button disabled={per < 100} type="submit">Add</button>
             </form>
+            <h1>User List</h1>
+            {
+                users.map(user => <div className='userlist' key={user.id}>
+                    <p className='name'>
+                        {user.name}
+                    </p>
+                    <p className='name'>
+                        {user.address}
+
+                    </p>
+                    <img width={100} src={user.img} alt="" />
+                </div>)
+            }
         </div>
     );
 };
